@@ -17,8 +17,25 @@ Serial myPort;
 Minim minim;
 AudioOutput out;
 Oscil testTone;
+
 Oscil G;
+Oscil OG;
+
+Oscil Gs;
+Oscil OGs;
+
 Oscil A;
+Oscil OA;
+
+Oscil B;
+Oscil OB;
+
+Oscil C;
+Oscil OC;
+
+Oscil Cs;
+Oscil OCs;
+
 
 
 String serialInput;
@@ -40,9 +57,23 @@ void setup(){
   //testTone.patch(out);
   
   G = new Oscil(Frequency.ofPitch("Bb3"), 0, Waves.SINE);
+  Gs = new Oscil(Frequency.ofPitch("B3"), 0, Waves.SINE);
+  
   A = new Oscil(Frequency.ofPitch("C4"), 0, Waves.SINE);
+  
+  B = new Oscil(Frequency.ofPitch("D4"), 0, Waves.SINE);
+  
+  C = new Oscil(Frequency.ofPitch("Eb4"), 0, Waves.SINE);
+  Cs = new Oscil(Frequency.ofPitch("E4"), 0, Waves.SINE);
   G.patch(out);
+  Gs.patch(out);
+  
   A.patch(out);
+  
+  B.patch(out);
+  
+  C.patch(out);
+  Cs.patch(out);
   
   LF = 10; //ASCII newline
   
@@ -66,25 +97,90 @@ void draw(){
     
   }
   
-  //if(val > 0 && out.isMuted()) {
-  //  out.unmute();
+  if(val == 2){
     
-  //}
+    C.setAmplitude(0.0);
+    B.setAmplitude(0.0);
+    A.setAmplitude(0.0);
+    G.setAmplitude(0.0);
+    Gs.setAmplitude(0.0);
+    
+    Cs.setAmplitude(1.0);
+  }
   
-  if(val == 1) {
-    //testTone.setAmplitude(1.0);
+  if(val == 4){
+    Cs.setAmplitude(0.0);
+    
+    B.setAmplitude(0.0);
+    A.setAmplitude(0.0);
+    G.setAmplitude(0.0);
+    Gs.setAmplitude(0.0);
+    
+    C.setAmplitude(1.0);
+  }
+  
+  if(val == 8){
+    Cs.setAmplitude(0.0);
+    C.setAmplitude(0.0);
+    
+    A.setAmplitude(0.0);
+    G.setAmplitude(0.0);
+    Gs.setAmplitude(0.0);
+    
+    B.setAmplitude(1.0);
+  }
+  
+  if(val == 12){
+    Cs.setAmplitude(0.0);
+    C.setAmplitude(0.0);
+    B.setAmplitude(0.0);
+    
+    G.setAmplitude(0.0);
+    Gs.setAmplitude(0.0);
+    
+    A.setAmplitude(1.0);
+  }
+  
+  if(val == 14){
+    Cs.setAmplitude(0.0);
+    C.setAmplitude(0.0);
+    B.setAmplitude(0.0);
+    A.setAmplitude(0.0);
+    
+    Gs.setAmplitude(0.0);
+    
     G.setAmplitude(1.0);
   }
   
-  else if(val == 2){
-    A.setAmplitude(1.0);
+  if(val == 15){
+    Cs.setAmplitude(0.0);
+    C.setAmplitude(0.0);
+    B.setAmplitude(0.0);
+    A.setAmplitude(0.0);
+    G.setAmplitude(0.0);
+    
+    Gs.setAmplitude(1.0);
   }
+  
+  
+  //if(val == 1) {
+  //  G.setAmplitude(1.0);
+  //}
+  
+  //else if(val == 2){
+  //  A.setAmplitude(1.0);
+  //}
   
   else if(val == 0) {
     //out.mute();  //first iteration using one tone only
     //testTone.setAmplitude(0.0);
+    
+    Cs.setAmplitude(0.0);
+    C.setAmplitude(0.0);
+    B.setAmplitude(0.0);
     A.setAmplitude(0.0);
     G.setAmplitude(0.0);
+    Gs.setAmplitude(0.0);
   }
   
   

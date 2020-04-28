@@ -1,53 +1,69 @@
 /**
- * Translates pressure from Force Sensitive Resistors on pins 0 - 4 to a serial output integer
+ * @author Stephen Robinson
+ * @version April 27, 2020
+ * 
+ * Translates pressure from Force Sensitive Resistors on pins 0 - 6 to a serial output integer. 
+ * Since I need to pass a single integer which captures the exact combination of active FSRs, each FSR is
+ * mapped according to a bit representation scheme. 
+ * 
+ * No active FSR -> 0
+ * FSR 0 -> 1
+ * FSR 1 -> 2
+ * FSR 3 -> 4
+ * FSR 4 -> 8
+ * FSR 6 -> 16
+ * 
+ * Each loop, the program will add the mapped number to a total called pitchEncoding which is sent at the end.
  */
 
-int fsrAnalogPin0 = 0; //LT or Left Thumb
-int fsrAnalogPin1 = 1; //L1 or Left Finger 1
+int fsrAnalogPin0 = 0; //L4
+int fsrAnalogPin1 = 1; //L3
 int fsrAnalogPin2 = 2; //L2
-int fsrAnalogPin3 = 3; //L3
-int fsrAnalogPin4 = 4; //L4
-int fsrAnalogPin6 = 6; //L5
+int fsrAnalogPin3 = 3; //L1
+int fsrAnalogPin6 = 6; //LT or Left Thumb
 
+//readings on each FSR. Reading of 0 = no pressure, ~900 = max pressure
 int fsrReading0;
 int fsrReading1;
 int fsrReading2;
 int fsrReading3;
 int fsrReading6;
 
-int pitchEncoding;
+int pitchEncoding; //the sum total capturing which FSRs are active in the loop
 
 void setup() {
   
-  Serial.begin(9600);
+  Serial.begin(9600); //set the transmission rate to 9600 baud
   
 }
 
+/**
+ * Loops indefinitely, reading from each pin the pressure exerted on each sensor.
+ * 
+ * Captures the combination of active sensors in a single int according to a bit
+ * representation scheme.
+ * 
+ * No active FSR -> 0
+ * FSR 0 -> 1
+ * FSR 1 -> 2
+ * FSR 3 -> 4
+ * FSR 4 -> 8
+ * FSR 6 -> 16
+ * 
+ * Finally, writes the integer to serial out.
+ */
 void loop() {
 
-//  if (analogRead(fsrAnalogPin0) > 700){
-//    Serial.write(1);
-//  } else if(analogRead(fsrAnalogPin1 > 700)){
-//    Serial.write(2);
-//  }else {
-//    Serial.write(0);
-//  }
-
-//  if (analogRead(fsrAnalogPin0) > 700){
-//    Serial.println(1);
-//  }
-//  
-//  if(analogRead(fsrAnalogPin1 > 700)){
-//    Serial.println(2);
-//  }
-
+  // Read from each of the five FSRs
   fsrReading0 = analogRead(fsrAnalogPin0);
   fsrReading1 = analogRead(fsrAnalogPin1);
   fsrReading2 = analogRead(fsrAnalogPin2);
   fsrReading3 = analogRead(fsrAnalogPin3);
   fsrReading6 = analogRead(fsrAnalogPin6);
 
+  //reset to 0
   pitchEncoding = 0;
+  
   if(fsrReading0 > 700){
     pitchEncoding += 1;
   }
@@ -70,31 +86,5 @@ void loop() {
 
   Serial.println(pitchEncoding);
 
-//  if(fsrReading0 > 700) {
-//    Serial.println("1");
-//  }
-//
-//  if(fsrReading1 > 700){
-//    Serial.println("2");
-//  }
-//
-//  if(fsrReading2 > 700){
-//    Serial.println("3");
-//  }
-//
-//  if(fsrReading1 <700 & fsrReading0 < 700 & fsrReading2 < 0){
-//    Serial.println("0");
-//  }
-//  Serial.println(fsrReading0);
-//  //Serial.print(" Pin 1 = ");
-//  Serial.println(fsrReading1);
-//  Serial.println(fsrReading2);
-
-
-
-
-
-
   delay(100);
-
 }
